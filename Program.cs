@@ -8,6 +8,11 @@ using TaskPlanner.Services;
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseStaticWebAssets();
+if (string.IsNullOrWhiteSpace(builder.Configuration["ASPNETCORE_URLS"]))
+{
+    builder.WebHost.UseUrls("http://localhost:5088");
+}
 builder.Services.AddControllers();
 builder.Services.AddDbContext<PlannerDbContext>(options =>
     options.UseNpgsql(ResolveConnectionString(builder.Configuration)));

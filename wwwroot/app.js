@@ -203,11 +203,18 @@ authForm.onsubmit = async event => {
     return;
   }
   const path = state.mode === "login" ? "/api/auth/makeAuthRequest" : "/api/auth/register";
-  const response = await fetch(path, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
+  let response;
+  try {
+    response = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+  } catch {
+    authError.hidden = false;
+    authError.textContent = "Сервер не отвечает. Запустите TaskPlanner.exe и откройте http://localhost:5088, не файл index.html.";
+    return;
+  }
   const body = await response.json();
   if (!response.ok) {
     authError.hidden = false;
