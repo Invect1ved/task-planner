@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Планировщик задач</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <section id="auth-screen" class="auth-screen">
+    <form id="auth-form" class="card auth-card">
+      <p class="eyebrow">12 недель</p>
+      <h1>Планировщик</h1>
+      <p class="lead">Задачи, сроки и общий доступ. Вход выдаёт токены через <code>makeAuthRequest</code>, и каждое действие проверяет их.</p>
+      <div class="tabs">
+        <button type="button" id="tab-login" class="active">Вход</button>
+        <button type="button" id="tab-register">Регистрация</button>
+      </div>
+      <label>Почта<input name="email" type="email" required placeholder="anna@mail.ru" /></label>
+      <label id="name-field" hidden>Имя<input name="displayName" type="text" placeholder="Анна" /></label>
+      <label>Пароль<input name="password" type="password" required minlength="8" /></label>
+      <p id="auth-error" class="error" hidden></p>
+      <button class="primary" type="submit">Войти</button>
+      <p class="hint">Учебные пользователи: anna@mail.ru / Anna1234 и boris@mail.ru / Boris1234</p>
+    </form>
+  </section>
+
+  <section id="app-screen" class="app-screen" hidden>
+    <aside>
+      <div class="brand">План</div>
+      <nav id="filters">
+        <button type="button" data-filter="all" class="active">Все</button>
+        <button type="button" data-filter="active">Активные</button>
+        <button type="button" data-filter="done">Выполненные</button>
+        <button type="button" data-filter="shared">Общие</button>
+      </nav>
+      <button id="notify-btn" type="button" class="ghost">Включить уведомления</button>
+      <button id="logout-btn" type="button" class="ghost">Выйти</button>
+    </aside>
+    <main>
+      <header class="toolbar">
+        <div>
+          <p class="eyebrow" id="user-label"></p>
+          <h1>Задачи</h1>
+        </div>
+        <div class="toolbar-actions">
+          <label>Сортировка
+            <select id="sort">
+              <option value="created">по дате создания</option>
+              <option value="due" selected>по сроку</option>
+            </select>
+          </label>
+          <label>Порядок
+            <select id="direction">
+              <option value="asc" selected>по возрастанию</option>
+              <option value="desc">по убыванию</option>
+            </select>
+          </label>
+          <button id="new-task" class="primary" type="button">Новая задача</button>
+        </div>
+      </header>
+      <div id="notices"></div>
+      <div id="task-list" class="task-list"></div>
+    </main>
+  </section>
+
+  <dialog id="task-dialog">
+    <form id="task-form" method="dialog">
+      <h2 id="dialog-title">Новая задача</h2>
+      <label>Название<input name="title" required maxlength="200" /></label>
+      <label>Описание<input name="description" maxlength="1000" placeholder="необязательно" /></label>
+      <label>Срок<input name="dueAt" type="datetime-local" required /></label>
+      <label class="check"><input name="isCompleted" type="checkbox" /> Отметить выполненной</label>
+      <p id="form-error" class="error" hidden></p>
+      <div class="dialog-actions">
+        <button type="button" id="cancel-dialog" class="ghost">Отмена</button>
+        <button class="primary" type="submit">Сохранить</button>
+      </div>
+    </form>
+  </dialog>
+  <script src="app.js"></script>
+</body>
+</html>
